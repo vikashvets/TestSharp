@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace TestTask
 {
@@ -61,6 +62,7 @@ namespace TestTask
 
         public static ArrayList ConvertFileToRecords(string pathToInputFile)
         {
+            
             StreamReader streamReader = new StreamReader(pathToInputFile);
             ArrayList recordsList = new ArrayList();
             bool isHeader = true;
@@ -77,6 +79,7 @@ namespace TestTask
                     string[] lineValues = line.Split(',');
                     Record newRecord = new Record(lineValues[0], Convert.ToDateTime(lineValues[1]), Convert.ToDouble(lineValues[2].Replace('.', ',')));
                     recordsList.Add(newRecord);
+                    
                 }
 
             }

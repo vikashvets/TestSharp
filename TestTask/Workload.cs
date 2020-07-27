@@ -10,6 +10,7 @@ namespace TestTask
         private string employeeName;
         private SortedDictionary<DateTime, double> employeeWorkload;
 
+        
         public string EmployeeName
         {
             get
@@ -41,61 +42,72 @@ namespace TestTask
             employeeWorkload = workload;
         }
 
-        public static ArrayList CreateWorkloadList(ArrayList recordsList)
-        {
+        public static Tuple<ArrayList, SortedSet<DateTime>> CreateWorkloadList(ArrayList recordsList)
+        {  
+            
+            SortedDictionary<string, Workload> workloadEmployees = new SortedDictionary<string, Workload>();
             SortedSet<DateTime> dates = new SortedSet<DateTime>();
-            SortedSet<string> employees = new SortedSet<string>();
+
             foreach (Record i in recordsList)
             {
                 dates.Add(i.Date);
-                employees.Add(i.EmployeeName);
-            }
-            ArrayList workloadList = new ArrayList();
-            foreach (string i in employees)
-            {
-                SortedDictionary<DateTime, double> newDayHourList = new SortedDictionary<DateTime, double>();
-                foreach (DateTime j in dates)
+                
+                if (!workloadEmployees.ContainsKey(i.EmployeeName))
                 {
-                    newDayHourList.Add(j, 0);
+                    Workload newWorkload = new Workload(i.EmployeeName, new SortedDictionary<DateTime, double>());
+                    workloadEmployees.Add(i.EmployeeName, newWorkload);
                 }
-                Workload newWorkload = new Workload(i, newDayHourList);
-                workloadList.Add(newWorkload);
-            }
-            foreach (Record i in recordsList)
-            {
-                foreach (Workload j in workloadList)
+
+                if (!workloadEmployees[i.EmployeeName].EmployeeWorkload.ContainsKey(i.Date))
                 {
-                    if (i.EmployeeName == j.EmployeeName)
-                    {
-                        j.EmployeeWorkload[i.Date] += i.WorkHours;
-                    }
+                    workloadEmployees[i.EmployeeName].EmployeeWorkload.Add(i.Date, i.WorkHours);
                 }
+                else
+                {
+                    workloadEmployees[i.EmployeeName].EmployeeWorkload[i.Date] += i.WorkHours;
+                }
+               
             }
-            return workloadList;
+
+            ArrayList workloadList = new ArrayList(workloadEmployees.Values);
+            return Tuple.Create(workloadList, dates);
+            
         }
 
 
-        public static void ConvertWorkloadListToFile(string pathToOutputFile, ArrayList workloadList)
+        public static void ConvertWorkloadListToFile(string pathToOutputFile, Tuple<ArrayList, SortedSet<DateTime>> workloadListTuple)
         {
+            
             using (StreamWriter streamWriter = new StreamWriter(pathToOutputFile, false, System.Text.Encoding.Default))
             {
-                Workload firstWorkload = (Workload)workloadList[0];
+                ArrayList workloadList = workloadListTuple.Item1;
+                SortedSet<DateTime> dates = workloadListTuple.Item2;
+
                 streamWriter.Write("Name / Date");
-                foreach (KeyValuePair<DateTime, double> i in firstWorkload.EmployeeWorkload)
+                foreach (DateTime i in dates)
                 {
                     streamWriter.Write(",");
-                    streamWriter.Write(i.Key.ToString("d"));
+                    streamWriter.Write(i.ToString("d"));
                 }
                 streamWriter.WriteLine();
                 foreach (Workload i in workloadList)
                 {
                     streamWriter.Write(i.EmployeeName);
-                    foreach (KeyValuePair<DateTime, double> j in i.EmployeeWorkload)
+
+                    foreach (DateTime j in dates)
                     {
                         streamWriter.Write(",");
-                        streamWriter.Write(Convert.ToString(j.Value).Replace(',', '.'));
+                        if (i.EmployeeWorkload.ContainsKey(j))
+                        {
+                            
+                            streamWriter.Write(Convert.ToString(i.EmployeeWorkload[j]).Replace(',', '.'));
+                        }
+                        else
+                        {
+                            streamWriter.Write("0");
+                        }
                     }
-                    streamWriter.WriteLine();
+                    streamWriter.WriteLine(); 
                 }
 
             }

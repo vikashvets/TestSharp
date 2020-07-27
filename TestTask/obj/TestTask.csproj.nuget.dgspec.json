@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Alteya\\Desktop\\TestTask\\TestTask\\TestTask.csproj": {}
+    "C:\\Users\\Oleg\\Desktop\\TestTask\\TestTask\\TestTask.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Alteya\\Desktop\\TestTask\\TestTask\\TestTask.csproj": {
+    "C:\\Users\\Oleg\\Desktop\\TestTask\\TestTask\\TestTask.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Alteya\\Desktop\\TestTask\\TestTask\\TestTask.csproj",
+        "projectUniqueName": "C:\\Users\\Oleg\\Desktop\\TestTask\\TestTask\\TestTask.csproj",
         "projectName": "TestTask",
-        "projectPath": "C:\\Users\\Alteya\\Desktop\\TestTask\\TestTask\\TestTask.csproj",
-        "packagesPath": "C:\\Users\\Alteya\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Alteya\\Desktop\\TestTask\\TestTask\\obj\\",
+        "projectPath": "C:\\Users\\Oleg\\Desktop\\TestTask\\TestTask\\TestTask.csproj",
+        "packagesPath": "C:\\Users\\Oleg\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Oleg\\Desktop\\TestTask\\TestTask\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Alteya\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Oleg\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
